@@ -1,0 +1,19 @@
+{ "name": "e8util"
+ , "description":  "Miscellaneous E8 Utils"
+ , "version":  "0.0.1"
+ , "author": "Aldo Bucchi <aldo.bucchi@gmail.com>"
+ , "engines": { "node": "0.6.x" }
+ , "private": true
+ ,"dependencies": {
+   "coffee-script": "1.2.x"
+   ,"jquery" : "1.6.3"
+ }
+ , "scripts" : { 
+     "start" : "coffee ./lib/server.coffee"
+     ,"test" : "expresso"
+     }
+ ,"repository":{
+   "type":"git"
+   ,"url":"git://github.com/aldonline/e8util.git"
+ }
+}
