@@ -60,3 +60,13 @@ exports.send_json_or_html = send_json_or_html = ( req, res, result_obj ) ->
         <body>#{body}</body>
       </html>
     """
+
+exports.standard_result_middleware = -> ( req, res, next ) ->
+  # 1. Build result object according to protocol
+  result_obj = {}
+  if req.__result?
+    result_obj.result = req.__result
+  if req.__error
+    result_obj.error = req.__error
+  # 2. Encode and send the result
+  send_json_or_html req, res, result_obj
