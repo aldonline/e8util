@@ -63,10 +63,17 @@ exports.send_json_or_html = send_json_or_html = ( req, res, result_obj ) ->
 
 exports.standard_result_middleware = -> ( req, res, next ) ->
   # 1. Build result object according to protocol
+  ok = no
   result_obj = {}
   if req.__result?
+    ok = yes
     result_obj.result = req.__result
-  if req.__error
+  if req.__error?
+    ok = yes
     result_obj.error = req.__error
-  # 2. Encode and send the result
-  send_json_or_html req, res, result_obj
+  
+  if ok
+    # 2. Encode and send the result
+    send_json_or_html req, res, result_obj
+  else
+    next() # if there is no __result or __error, we pass
