@@ -20,7 +20,7 @@ render_node = ( node, $parent ) ->
     $parent.append $ul = $ '<ul>'
     for own k, v of node
       $ul.append $li = $('<li>').append $('<span>').text k + ': '
-      if k in [ 'url', 'link', 'action_url', 'img' ] or ( k is 'children' and typeof v is 'string' )
+      if k in [ 'url', 'link', 'action_url', 'img', 'activation_link', 'icon' ] or ( k is 'children' and typeof v is 'string' )
         $li.append $('<a>').text(v).attr href: v
       else if k is 'label'
         $li.append $('<strong>').text(v)
