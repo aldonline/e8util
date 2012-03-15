@@ -39,10 +39,11 @@ exports.generate_jsonp = generate_jsonp = ( req, obj ) ->
   else
     JSON.stringify obj
 
-exports.send_json_or_html = send_json_or_html = ( req, res, result_obj ) ->
+exports.send_json_or_html = send_json_or_html = ( req, res, result_obj, try_to_send_html = false ) ->
   send_html = false
-  try
-    send_html = req.headers.accept.indexOf('text/html') isnt -1
+  if try_to_send_html
+    try
+      send_html = req.headers.accept.indexOf('text/html') isnt -1
   unless send_html
     res.send generate_jsonp(req, result_obj), { 'Content-Type': 'text/plain' }, 200
   else
@@ -61,7 +62,7 @@ exports.send_json_or_html = send_json_or_html = ( req, res, result_obj ) ->
       </html>
     """
 
-exports.standard_result_middleware = -> ( req, res, next ) ->
+exports.standard_result_middleware = ( try_to_send_html = false) -> ( req, res, next ) ->
   # 1. Build result object according to protocol
   ok = no
   result_obj = {}
@@ -74,6 +75,6 @@ exports.standard_result_middleware = -> ( req, res, next ) ->
   
   if ok
     # 2. Encode and send the result
-    send_json_or_html req, res, result_obj
+    send_json_or_html req, res, result_obj, try_to_send_html
   else
     next() # if there is no __result or __error, we pass
